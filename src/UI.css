@@ -1,14 +1,24 @@
-flyer-builder {
-  position: relative;
-  height: 100%;
+
+@font-face {
+    font-family: garamonditalic;
+    src: url(./fonts/eb-garamond/EBGaramond08-Italic.ttf);
 }
+
+
+flyer-builder {
+  /*position: relative;*/
+  /*height: 100%;*/
+}
+
+
 .flyer-builder iframe,
 .flyer-builder .no_iframe {
   width: 100%;
-  height: 400px;
+  height: 500px;
   border: 1px solid #666;
   background-color: #ddd;
 }
+
 .flyer-builder .no_iframe > div {
   width: 80%;
   position: absolute;
@@ -18,6 +28,7 @@ flyer-builder {
           transform: translate(-50%, -50%);
   font-weight: normal;
 }
+
 @media all and (min-width: 768px) {
   .flyer-builder .btn.btn-block {
     display: inline;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './images/FDNY_logo.svg';
 import './App.css';
 import Login from './Login';
 import UI from './UI';
@@ -28,10 +28,8 @@ class App extends Component {
               <img src={ logo }
               className="App-logo"
               alt="logo" />
-              <h2> Welcome to React </h2> 
-            </div> 
-            <p className="App-intro">
-            To get started, edit <code> src / App.js </code> and save to reload. </p>
+              <h2>Certificate Generator</h2>
+            </div>
             <Login/>
             <UI/>
             <StorageItems/>
