@@ -30,9 +30,11 @@ class App extends Component {
               alt="logo" />
               <h2>Certificate Generator</h2>
             </div>
-            <Login/>
-            <UI/>
-            <StorageItems/>
+            <div className="container">
+              <Login/>
+              <UI/>
+              <StorageItems/>
+            </div>
           </div>
         );
     }
