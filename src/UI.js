@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
 import  jsPDF from '../node_modules/jspdf/dist/jspdf.debug.js';
 import './UI.css';
 
@@ -83,14 +82,8 @@ class UI extends Component {
         if (bool) {
             this.setState({src:doc.output('datauristring')})
         } else {
-            var ref = firebase.storage().ref();
-            // Create a child reference
-            var imagesRef = ref.child('magee');
-            var title = this.state.flyer_title.split(' ').join('_');
+            let title = this.state.flyer_title.split(' ').join('_');
             doc.save(title + '_flyer.pdf');
-            ref.putString(doc.output('datauristring'), 'base64url').then(function(snapshot) {
-                console.log('Uploaded a base64url string!');
-            });
         }
     }
 

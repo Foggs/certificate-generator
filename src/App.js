@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import * as firebase from 'firebase';
+
 import logo from './images/FDNY_logo.svg';
 import './App.css';
 import Login from './Login';
@@ -12,7 +14,19 @@ class App extends Component {
     super(props);
     this.state = {
       logedIn: false,
+      data: ''
     };
+  }
+
+  componentWillMount() {
+    const db = firebase.database().ref().child('pdfs');
+    const dbRef = db.child('one');
+    dbRef.on('value', snapshot => {
+      console.log(snapshot.val);
+      this.setState({
+        data:snapshot.val()
+      });
+    });
   }
 
     update(){
@@ -28,7 +42,7 @@ class App extends Component {
               <img src={ logo }
               className="App-logo"
               alt="logo" />
-              <h2>Certificate Generator</h2>
+              <h2>{this.state.data}</h2>
             </div>
             <div className="container">
               <Login/>
