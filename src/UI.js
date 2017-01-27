@@ -18,8 +18,6 @@ class UI extends Component {
             preview_available: null,
             src: null
         };
-
-
     }
 
     componentWillMount(){
@@ -28,7 +26,7 @@ class UI extends Component {
         });
     }
 
-    componentDidMount(){
+    componentDidMount() {
     }
 
     handleChange(event) {
@@ -69,7 +67,7 @@ class UI extends Component {
           format: [11, 8.5]
         })
         // console.log(doc.getFontList() );
-
+        //add image(file,type,x,y,width,height)
         doc.addImage(imgData, 'JPEG', 0,0, 11, 8.5 );
         this.setTitleText(doc);
         this.setSubTitleText(doc);
@@ -192,35 +190,52 @@ class UI extends Component {
 
     render() {
         return (
-            <div className="flyer-builder">
-                <div className="form-group row">
-                    <label htmlFor="flyer_heading">Heading</label>
-                    <input type="text" className="form-control" name="flyer_heading-" onChange={this.handleChange} value={this.state.flyer_heading}/>
-                </div>
-                <div className="form-group row">
-                    <label htmlFor="flyer_title">Title</label>
-                    <input type="text" className="form-control" name="flyer_title" onChange={this.handleChange} value={this.state.flyer_title}/>
-                </div>
-                <div className="form-group row">
-                    <label htmlFor="flyer_subtitle">Subtitle</label>
-                    <input type="text" className="form-control" name="flyer_subtitle" onChange={this.handleChange} value={this.state.flyer_subtitle}/>
-                </div>
-                <div className="row">
-                    <div className="">
-                        <button id="flyer_preview_btn" type="button" className="btn btn-primary btn-block" tabIndex="9" onClick={this.updatePreview}>Update preview</button>
+            <div className="container">
+
+                <form>
+                  <div className="form-group row">
+                    <label htmlFor="flyer_heading" className="col-sm-2 col-form-label">flyer_heading</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" name="flyer_heading-" onChange={this.handleChange} value={this.state.flyer_heading}/>
                     </div>
-                    <div className="">
-                        <button id="flyer_download_btn" type="button" className="btn btn-primary btn-xs btn-block" tabIndex="10" onClick={this.handleSubmit}>download</button>
+                  </div>
+
+                  <div className="form-group row">
+                    <label htmlFor="flyer_title" className="col-sm-2 col-form-label">flyer_title</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" name="flyer_title" onChange={this.handleChange} value={this.state.flyer_title}/>
                     </div>
-                </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label htmlFor="flyer_subtitle" className="col-sm-2 col-form-label">flyer_title</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" name="flyer_subtitle" onChange={this.handleChange} value={this.state.flyer_subtitle}/>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="offset-sm-2 col-sm-10">
+                        <button id="flyer_preview_btn" type="button" className="btn btn-primary float-left" tabIndex="9" onClick={this.updatePreview}>Update preview</button>
+                        <button id="flyer_download_btn" type="button" className="btn btn-primary float-right" tabIndex="10" onClick={this.handleSubmit}>download</button>
+                    </div>
+                  </div>
+                </form>
+
                 <div className="row">
-                    {/*iframe*/}
-                    <iframe id="pdf_preview" type="application/pdf" src={this.state.src}></iframe>
-                    <div className="col-sm-3">
-                        <p id="preview_Container"></p>
+                    <div className="flyer-builder col-sm-12">
+                        {/*iframe*/}
+                        <iframe id="pdf_preview" type="application/pdf" src={this.state.src}></iframe>
+                        <div className="col-sm-10">
+                            <p id="preview_Container">No preview available</p>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
+
+
 
       );
   }

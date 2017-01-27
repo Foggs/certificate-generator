@@ -38,7 +38,7 @@ class Login extends React.Component {
       if(user) {
         console.log(user.email, "logged in");
       } else {
-        console.log('not logged in')
+        console.log('not logged in');
       }
     })
 
@@ -56,7 +56,6 @@ class Login extends React.Component {
   }
 
   handleSubmit(event) {
-
     event.preventDefault();
     let email_val = document.getElementById('name').value;
     let password_val = document.getElementById('password').value;
@@ -68,16 +67,24 @@ class Login extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input id="name" type="text" value={this.state.name} onChange={this.handleChange} />
-        </label>
-        <label>
-          email:
-          <input id="password" type="text" value={this.state.password} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
+
+      <form className="form-inline" onSubmit={this.handleSubmit}>
+        <label className="sr-only" htmlFor="name">Name</label>
+        <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="name" value={this.state.name} onChange={this.handleChange}/>
+
+        <label className="sr-only" htmlFor="password">User</label>
+        <div className="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div className="input-group-addon">@</div>
+          <input type="text" className="form-control" id="password" value={this.state.password} onChange={this.handleChange}/>
+        </div>
+
+        <div className="form-check mb-2 mr-sm-2 mb-sm-0">
+          <label className="form-check-label">
+            <input className="form-check-input" type="checkbox"/> Remember me
+          </label>
+        </div>
+
+        <button type="submit" className="btn btn-primary">Submit</button>
       </form>
     );
   }
