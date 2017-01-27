@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
-
 import logo from './images/FDNY_logo.svg';
 import './App.css';
 import Login from './Login';
 import UI from './UI';
 import StorageItems from './StorageItems';
-// import API from jsPDF.API;
+import * as firebase from 'firebase';
 
 
 class App extends Component {
@@ -18,15 +16,15 @@ class App extends Component {
     };
   }
 
-  componentWillMount() {
-    const db = firebase.database().ref().child('pdfs');
-    const dbRef = db.child('one');
-    dbRef.on('value', snapshot => {
-      console.log(snapshot.val);
-      this.setState({
-        data:snapshot.val()
-      });
-    });
+  componentWillMount(){
+    const config = {
+        apiKey: "AIzaSyCnwAuNsDPbTdwHWBD1DaDkLEy8RqH6U4c",
+        authDomain: "news-98d26.firebaseapp.com",
+        databaseURL: "https://news-98d26.firebaseio.com",
+        storageBucket: "news-98d26.appspot.com",
+        messagingSenderId: "692400871451"
+      };
+      firebase.initializeApp(config);
   }
 
     update(){

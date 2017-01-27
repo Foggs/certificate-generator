@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
-    
+
     // query.once("value", function(snapshot) {
     //   var employees = [];
     //   snapshot.forEach(function(data) {
     //     // key will be "ada" the first time and "alan" the second time
     //     var key = data.key;
-        
+
     //     var employee = {
     //       id: key,
     //       name: data.val().author,
@@ -17,7 +17,7 @@ import * as firebase from 'firebase';
     //     console.log(employees);
     //   });
     // });
-  
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class Login extends React.Component {
   }
 
   componentWillMount() {
-   
+
     // lsiten for authentication changes
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
@@ -48,14 +48,14 @@ class Login extends React.Component {
      //for testing
     document.getElementById('name').value = 'admin@gmail.com';
     document.getElementById('password').value = 'admins';
-    
+
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
   }
 
-  handleSubmit(event) {    
+  handleSubmit(event) {
 
     event.preventDefault();
     let email_val = document.getElementById('name').value;
@@ -71,16 +71,16 @@ class Login extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <label>
           Name:
-          <input id="name" type="text" value={this.state.value} onChange={this.handleChange} />
+          <input id="name" type="text" value={this.state.name} onChange={this.handleChange} />
         </label>
         <label>
           email:
-          <input id="password" type="text" value={this.state.value} onChange={this.handleChange} />
+          <input id="password" type="text" value={this.state.password} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>
     );
   }
-}  
+}
 
 export default Login;
