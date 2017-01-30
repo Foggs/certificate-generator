@@ -1,22 +1,6 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
-
-    // query.once("value", function(snapshot) {
-    //   var employees = [];
-    //   snapshot.forEach(function(data) {
-    //     // key will be "ada" the first time and "alan" the second time
-    //     var key = data.key;
-
-    //     var employee = {
-    //       id: key,
-    //       name: data.val().author,
-    //       title: data.val().title
-    //     }
-    //     employees.push(employee);
-    //     self.setState({employees:employees})
-    //     console.log(employees);
-    //   });
-    // });
+import './Login.css';
 
 
 class Login extends React.Component {
@@ -41,7 +25,6 @@ class Login extends React.Component {
         console.log('not logged in');
       }
     })
-
   }
 
   componentDidMount() {
@@ -67,8 +50,7 @@ class Login extends React.Component {
 
   render() {
     return (
-
-      <form className="form-inline" onSubmit={this.handleSubmit}>
+      <form className="Login form-inline" onSubmit={this.handleSubmit}>
         <label className="sr-only" htmlFor="name">Name</label>
         <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="name" value={this.state.name} onChange={this.handleChange}/>
 
