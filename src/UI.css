@@ -31,3 +31,9 @@ flyer-builder {
     /*width: auto;*/
   }
 }
+
+
+.file {
+  visibility: hidden;
+  /*position: absolute;*/
+}

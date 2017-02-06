@@ -7,8 +7,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      password: ''
+      name: 'admin@gmail.com',
+      password: 'admins'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -52,15 +52,14 @@ class Login extends React.Component {
     return (
       <form className="Login form-inline" onSubmit={this.handleSubmit}>
         <label className="sr-only" htmlFor="name">Name</label>
-        <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="name" value={this.state.name} onChange={this.handleChange}/>
+        <input type="text" className="form-control" id="name" value={this.state.name} onChange={this.handleChange}/>
 
         <label className="sr-only" htmlFor="password">User</label>
-        <div className="input-group mb-2 mr-sm-2 mb-sm-0">
-          <div className="input-group-addon">@</div>
+        <div className="input-group">
           <input type="text" className="form-control" id="password" value={this.state.password} onChange={this.handleChange}/>
         </div>
 
-        <div className="form-check mb-2 mr-sm-2 mb-sm-0">
+        <div className="form-check">
           <label className="form-check-label">
             <input className="form-check-input" type="checkbox"/> Remember me
           </label>

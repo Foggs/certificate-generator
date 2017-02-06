@@ -6,7 +6,6 @@ import UI from './UI';
 import StorageItems from './StorageItems';
 import * as firebase from 'firebase';
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -19,27 +18,27 @@ class App extends Component {
 
   componentWillMount(){
     const config = {
-        apiKey: "AIzaSyCnwAuNsDPbTdwHWBD1DaDkLEy8RqH6U4c",
-        authDomain: "news-98d26.firebaseapp.com",
-        databaseURL: "https://news-98d26.firebaseio.com",
-        storageBucket: "news-98d26.appspot.com",
-        messagingSenderId: "692400871451"
-      };
-      firebase.initializeApp(config);
-      this.db = firebase.database().ref().child('pdfs');
-      this.db.once('value', function(snapshot) {
+      apiKey: "AIzaSyCnwAuNsDPbTdwHWBD1DaDkLEy8RqH6U4c",
+      authDomain: "news-98d26.firebaseapp.com",
+      databaseURL: "https://news-98d26.firebaseio.com",
+      storageBucket: "news-98d26.appspot.com",
+      messagingSenderId: "692400871451"
+    };
+    firebase.initializeApp(config);
+    
+    this.db = firebase.database().ref().child('pdfs');
+      this.db.on('value', function(snapshot) {
         let a =[];
         snapshot.forEach(function (data) {
           let postData = {
-            url: data.val().url,
+            downloadURL: data.val().downloadURL,
             title: data.val().title,
-            key: this.db.push().key
-
+            key: data.val().key
           };
           a.push(postData);
           this.setState({archive:a})
-        }.bind(this));
       }.bind(this));
+    }.bind(this));
   }
 
   componentDidMount() {
@@ -49,7 +48,6 @@ class App extends Component {
   componentWillUnmount() {
     this.db.off();
   }
-
 
   uploadToStorage(file,title) {
     // Create the file metadata
@@ -79,30 +77,29 @@ class App extends Component {
       function(error) {
         switch (error.code) {
           case 'storage/unauthorized':
-            // User doesn't have permission to access the object
+            console.error('User doesn not have permission to access the object');
             break;
-
           case 'storage/canceled':
-            // User canceled the upload
+            console.error('User canceled the upload');
             break;
-
           case 'storage/unknown':
-                // Unknown error occurred, inspect error.serverResponse
-              break;
-            }
+            console.error('Unknown error occurred, inspect error.serverResponse');
+            break;
+          }
       },
       function() {
         // Upload completed successfully, now we can get the download URL
-        var downloadURL = uploadTask.snapshot.downloadURL;
-        self.update_db(downloadURL,title);
+        var url = uploadTask.snapshot.downloadURL;
+        
+        self.update_db(url,title);
       });
   }
 
-  update_db(url,title){
+  update_db(downloadURL,title){
     let db = firebase.database().ref().child('pdfs');
     let newPostKey = db.push().key;
     let postData = {
-      url: url,
+      downloadURL: downloadURL,
       title: title,
       id: newPostKey
     };

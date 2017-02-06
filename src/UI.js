@@ -14,8 +14,8 @@ class UI extends Component {
         // this.download_Button = document.getElementById('flyer_download_btn');
         this.state = {
             flyer_heading: 'Presented to',
-            flyer_title:'Engine 39 Ladder 16',
-            flyer_subtitle: 'of the New York City Fire Department',
+            flyer_title:'Recipient...',
+            flyer_subtitle: 'Department...',
             update_preview: false,
             preview_available: null,
             src: null
@@ -29,6 +29,7 @@ class UI extends Component {
     }
 
     componentDidMount() {
+        document.getElementById('flyer_preview_btn').click();
     }
 
     handleChange(event) {
@@ -67,7 +68,11 @@ class UI extends Component {
         })
         // console.log(doc.getFontList() );
         //add image(file,type,x,y,width,height)
-        doc.addImage(imgData, 'JPEG', 0,0, 11, 8.5 );
+        if(this.state.file){
+            this.addBackground(doc);
+        } else {
+            doc.addImage(imgData, 'JPEG', 0,0, 11, 8.5 );
+        }
         this.setTitleText(doc);
         this.setSubTitleText(doc);
         this.setQuoteText(doc);
@@ -84,6 +89,10 @@ class UI extends Component {
             doc.save(title + '_flyer.pdf');
 
         }
+    }
+
+    addBackground(doc){
+        doc.addImage(this.state.imagePreviewUrl, 'JPEG', 0,0, 11, 8.5);
     }
 
     setTitleText(doc) {
@@ -171,6 +180,42 @@ class UI extends Component {
         }
     }
 
+    userFileUpload(e){
+        e.preventDefault();
+
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        let img_data = {
+            type: file.type === 'image/jpeg' ? 'JPEG' : 'PNG' // maybe you should add some controls to prevent loading of other file types
+        };
+        reader.onload = function(event) {
+            img_data.src = event.target.result;
+
+            // we need this to get img dimensions
+            var user_img = new Image();
+            user_img.onload = function() {
+                    img_data.w = user_img.width;
+                    img_data.h = user_img.height;
+                }
+            user_img.src = img_data.src;
+        }
+        
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result
+          });
+        }
+        reader.readAsDataURL(file)
+    }
+
+    triggerFileInput(){
+        event.preventDefault();
+        console.log('trigger')
+        document.getElementById("flyer-image").click(); // Click on the checkbox
+    }
+
 
     canRenderPreview(){
         // preview can be displayed?
@@ -193,33 +238,46 @@ class UI extends Component {
         return (
             <div className="UI container">
                 <form>
-                  <div className="form-group row">
-                    <label htmlFor="flyer_heading" className="col-sm-2 col-form-label">flyer_heading</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" name="flyer_heading-" onChange={this.handleChange} value={this.state.flyer_heading}/>
+                    <h3>Fill in fields</h3>
+                    <div className="form-group row">
+                        <label htmlFor="flyer_heading" className="col-sm-2 col-form-label">Heading*</label>
+                        <div className="col-sm-10">
+                            <input type="text" className="form-control" name="flyer_heading-" onChange={this.handleChange} value={this.state.flyer_heading}/>
+                        </div>
                     </div>
-                  </div>
 
-                  <div className="form-group row">
-                    <label htmlFor="flyer_title" className="col-sm-2 col-form-label">flyer_title</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" name="flyer_title" onChange={this.handleChange} value={this.state.flyer_title}/>
+                    <div className="form-group row">
+                        <label htmlFor="flyer_title" className="col-sm-2 col-form-label">Recipient:*</label>
+                        <div className="col-sm-10">
+                            <input type="text" className="form-control" name="flyer_title" onChange={this.handleChange} value={this.state.flyer_title}/>
+                        </div>
                     </div>
-                  </div>
 
-                  <div className="form-group row">
-                    <label htmlFor="flyer_subtitle" className="col-sm-2 col-form-label">flyer_title</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" name="flyer_subtitle" onChange={this.handleChange} value={this.state.flyer_subtitle}/>
+                    <div className="form-group row">
+                        <label htmlFor="flyer_subtitle" className="col-sm-2 col-form-label">Department:*</label>
+                        <div className="col-sm-10">
+                            <input type="text" className="form-control" name="flyer_subtitle" onChange={this.handleChange} value={this.state.flyer_subtitle}/>
+                        </div>
                     </div>
-                  </div>
 
-                  <div className="form-group row">
-                    <div className="offset-sm-2 col-sm-10">
-                        <button id="flyer_preview_btn" type="button" className="btn btn-primary float-left" tabIndex="9" onClick={this.updatePreview}>Update preview</button>
-                        <button id="flyer_download_btn" type="button" className="btn btn-primary float-right" tabIndex="10" onClick={this.handleSubmit}>download</button>
+                    <div className="form-group row">
+                        <label htmlFor="upload" className="col-sm-2 col-form-label">Image*:</label>
+                        <div className="col-sm-10 input-group ">
+                            <span className="input-group-btn">
+                                <button className="btn btn-primary" type="button" onClick={this.triggerFileInput}>Browse</button>
+                            </span>
+                            <input type="text" className="form-control" name="upload" placeholder="Upload Background Image"/>
+                        </div>
                     </div>
-                  </div>
+                    <input id="flyer-image" className="file" onChange={(e)=>this.userFileUpload(e)} type="file" tabIndex="8"/>
+
+                    <hr/>
+                    <div className="form-group row">
+                        <div className="offset-sm-2 col-sm-10">
+                            <button id="flyer_preview_btn" type="button" className="btn btn-primary float-left" tabIndex="9" onClick={this.updatePreview}>Preview</button>
+                            <button id="flyer_download_btn" type="button" className="btn btn-primary float-right" tabIndex="10" onClick={this.handleSubmit}>Download</button>
+                        </div>
+                    </div>
                 </form>
 
                 <div className="row">
@@ -227,16 +285,11 @@ class UI extends Component {
                         {/*iframe*/}
                         <iframe id="pdf_preview" type="application/pdf" src={this.state.src}></iframe>
                         <div className="col-sm-10">
-                            <p id="preview_Container">No preview available</p>
+                            <p id="preview_Container"></p>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
-
       );
   }
 }
